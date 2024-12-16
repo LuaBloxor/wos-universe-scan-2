@@ -1,5 +1,6 @@
 local Webhook = ""
-
+local Anchor = GetPart("Anchor")
+Anchor.Anchored=false
 local Telescope = GetPart("Telescope")
 local StarMap = GetPart("StarMap")
 local Disk = GetPart("Disk")
