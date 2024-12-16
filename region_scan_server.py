@@ -6,21 +6,21 @@ def scanningMode():
     state = open("state.json", "r")
     contents = json.load(state)
     return {
-        'Mode': contents.Mode
+        "Mode": contents["Mode"]
     }
 @app.route("/submit", methods=['Get', 'Post'])
 def submitData():
     data = request.get_json()
     scanType = None
-    if data.Bodies:
+    if data.get("Bodies"):
         scanType = "Bodies"
-    if data.Systems:
+    if data.get("Systems"):
         scanType = "Systems"
     if scanType == None:
         return {}
     universe = open("systems.json", "a")
-    universe.write(jsonify(data[scanType]))
-    coordinates = ", ".split(data.Location)
+    universe.write(json.dumps(data[scanType]) + "\n")
+    coordinates = data["Location"].split(", ")
     x = float(coordinates[0])
     y = float(coordinates[1])
     x += 21
@@ -32,5 +32,5 @@ def submitData():
             'Finished': True
         }
     return {
-        'NextCoordinates': x+", "+y+", 0, 0, false"
+        'NextCoordinates': str(x)+", "+str(y)+", -0, -0, false"
     }
