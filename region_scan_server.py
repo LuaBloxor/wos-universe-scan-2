@@ -18,11 +18,15 @@ def submitData():
         scanType = "Systems"
     if scanType == None:
         return {}
-    universe = open("systems.json", "a")
-    universe.write(json.dumps(data[scanType]) + "\n")
     coordinates = data["Location"].split(", ")
     x = float(coordinates[0])
     y = float(coordinates[1])
+    if (x + 90) % 21 != 0 or (y + 90) % 21 != 0: # restrict coordinates to multiples of 21 starting from -90
+        return {
+            'NextCoordinates': "-90, -90, -0, -0, false"
+        }
+    universe = open("systems.json", "a")
+    universe.write(json.dumps(data[scanType]) + "\n")
     x += 21
     if x > 100:
         y += 21
